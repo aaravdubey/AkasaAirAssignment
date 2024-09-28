@@ -1,0 +1,63 @@
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+/node_modules
+/.pnp
+.pnp.js
+
+# Production build
+/build
+
+# Miscellaneous
+.DS_Store
+.env
+
+# Compiled class files (Java)
+/target/
+*.class
+
+# Maven specific files
+.mvn/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Package Files (Java)
+*.jar
+*.war
+*.ear
+
+# IDE specific files
+.idea/
+*.iml
+*.ipr
+*.iws
+.settings/
+.classpath
+.project
+.vscode/
+
+# Local databases (H2, etc.)
+*.h2.db
+*.mv.db
+
+# Spring Boot specific
+/spring-boot-devtools.properties
+
+# OS generated files
+Thumbs.db
+.DS_Store
+
+# IntelliJ IDEA specific
+.idea/
+*.iml
+*.iws
