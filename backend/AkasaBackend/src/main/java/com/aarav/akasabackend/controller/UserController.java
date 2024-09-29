@@ -23,8 +23,13 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody User user) {
-        userService.signup(user);
-        return ResponseEntity.ok().build();
+        String jwt = userService.signup(user);
+        if (jwt != null)
+            return ResponseEntity.ok().body(Map.of("token", jwt,
+                "email", user.getUsername(),
+                "name", user.getName()));
+
+        return ResponseEntity.status(500).build();
     }
 
     @PostMapping("signin")
@@ -37,6 +42,6 @@ public class UserController {
                 "email", user.getUsername(),
                 "name", storedUser.getName()));
 
-        return ResponseEntity.status(403).build();
+        return ResponseEntity.status(401).build();
     }
 }

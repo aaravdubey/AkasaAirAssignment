@@ -9,7 +9,8 @@ export default {
       colors: {
         "light-blue": "#edf3fc",
         "orange": "#da4723",
-        "dark-orange": "#a6361a"
+        "dark-orange": "#a6361a",
+        "light-orange": "#ff6f28"
       }
     },
   },

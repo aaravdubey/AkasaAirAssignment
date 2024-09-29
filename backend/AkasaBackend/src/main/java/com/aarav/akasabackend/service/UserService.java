@@ -5,6 +5,8 @@ import com.aarav.akasabackend.model.Cart;
 import com.aarav.akasabackend.model.User;
 import com.aarav.akasabackend.repo.CartRepo;
 import com.aarav.akasabackend.repo.UserRepo;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,7 +33,7 @@ public class UserService {
         this.jwtService = jwtService;
     }
 
-    public void signup(@RequestBody User user) {
+    public String signup(@RequestBody User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepo.save(user);
 //        System.out.println(user);
@@ -39,6 +41,8 @@ public class UserService {
         Cart cart = new Cart();
         cart.setUser(user);
         cartRepo.save(cart);
+
+        return jwtService.generateToken(user.getUsername());
     }
 
     public String signin(@RequestBody User user) {
@@ -47,4 +51,6 @@ public class UserService {
             return jwtService.generateToken(user.getUsername());
         else return null;
     }
+
+
 }
