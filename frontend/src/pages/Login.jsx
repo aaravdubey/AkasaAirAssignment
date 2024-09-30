@@ -52,7 +52,7 @@ export default function Login() {
     toast.info("Signing in...");
 
     try {
-      console.log(`${API_URL}/signin`);
+      // console.log(`${API_URL}/signin`);
       const response = await axios.post(`${API_URL}/signin`, {
         email: email1,
         password: password1
@@ -63,12 +63,12 @@ export default function Login() {
         localStorage.setItem('name', response.data.name);
         localStorage.setItem('email', response.data.email);
         navigate("/home");
-        console.log(response);
+        // console.log(response);
       }
     } catch (error) {
       if (error.response && error.response.status === 401)
-        console.log(error);
-      toast.error("Invalid Credentials!");
+        // console.log(error);
+        toast.error("Invalid Credentials!");
     }
   }
 
@@ -119,7 +119,7 @@ export default function Login() {
                 <span className="font-bold text-md">Forgot password</span>
               </div> */}
               <button
-                className="w-96 bg-orange text-white p-2 rounded-lg my-6 border hover:border-gray-300 hover:bg-dark-orange"
+                className="w-full mb:w-96 bg-orange text-white p-2 rounded-lg my-6 border hover:border-gray-300 hover:bg-dark-orange"
                 type='submit'
               >
                 Sign in
@@ -185,7 +185,7 @@ export default function Login() {
               />
             </div>
             <button
-              className="w-96 bg-orange text-white p-2 rounded-lg mb-6 border hover:border-gray-300 hover:bg-dark-orange"
+              className="w-full mb:w-96 bg-orange text-white p-2 rounded-lg mb-6 border hover:border-gray-300 hover:bg-dark-orange"
             >
               Sign up
             </button>

@@ -11,12 +11,12 @@ export default function CartCard({ item, itemQuantity, product, updateCart }) {
       </div>
 
       <div className="w-full">
-        <h1 className="text-lg font-semibold text-gray-800">{product.name}</h1>
-        <p className="mt-1 text-gray-600">{product.description}</p>
+        <h1 className="mb:text-lg font-semibold text-gray-800">{product.name}</h1>
+        <p className="text-sm mb:text-base mt-1 text-gray-600">{product.description}</p>
         <div className="flex justify-between items-center mt-1">
           <span className="text-lg font-bold text-orange">₹ {product.price}</span>
           <div className="flex  gap-3">
-            <p className="text-gray-700 flex justify-center items-center">In stock: {product.availableQuantity}</p>
+            <p className="hidden md:flex text-gray-700 justify-center items-center">In stock: {product.availableQuantity}</p>
             {product.availableQuantity === 0 ?
               <div className="flex">
                 <p className="px-5 py-1.5 text-orange text-sm font-bold flex items-center gap-1"> <MdDoNotDisturbAlt className="text-lg" /> Sold out</p>
@@ -31,6 +31,7 @@ export default function CartCard({ item, itemQuantity, product, updateCart }) {
             }
           </div>
         </div>
+        <p className="flex md:hidden text-gray-700 justify-end items-center mt-1">In stock: {product.availableQuantity}</p>
       </div>
     </div>
   )

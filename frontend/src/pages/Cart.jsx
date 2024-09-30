@@ -9,23 +9,27 @@ import { useNavigate } from "react-router";
 import { debounce } from "../services/debounce";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loading from "../components/Loading";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Cart() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [cart, setCart] = useState(null);
   const [total, setTotal] = useState(0);
 
   const getCart = async () => {
+    setLoading(true);
     const response = await axios.post(`${API_URL}/cart`, {
     }, {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       }
     })
-    console.log(response.data);
+    // console.log(response.data);
     setCart(response.data);
     calulateTotal(response.data);
+    setLoading(false);
   }
 
   const calulateTotal = (cart) => {
@@ -50,25 +54,25 @@ export default function Cart() {
           "Authorization": `Bearer ${localStorage.getItem("token")}`,
         },
       });
-  
+
       // console.log(response.data.quantity); 
-  
+
       setCart(prevCart => {
         const updatedCart = { ...prevCart };
         updatedCart.items = updatedCart.items.map(cartItem =>
           cartItem.id === item.id ? { ...cartItem, quantity: response.data.quantity } : cartItem
         );
-  
-        calulateTotal(updatedCart); 
-        return updatedCart; 
+
+        calulateTotal(updatedCart);
+        return updatedCart;
       });
-  
+
     } catch (error) {
       console.error(`Error updating product in cart:`, error);
       alert(`Failed to update product in cart. Please try again.`);
     }
   };
-  
+
 
   const debouncedUpdateCartAPI = debounce(updateCartAPI, 500);
 
@@ -100,11 +104,12 @@ export default function Cart() {
 
   return (
     <div className="min-h-screen bg-slate-100">
+      {loading && <Loading />}
       <Header />
       <ToastContainer position="bottom-right" />
 
-      <div className="grid grid-cols-3 gap-5 py-10 px-3 xl:px-28">
-        <div className="col-span-2 bg-white rounded-lg p-5">
+      <div className="md:grid grid-cols-3 gap-5 py-10 px-3 xl:px-28">
+        <div className="col-span-2 bg-white rounded-lg md:p-5 mb-5">
           {cart != null && cart.items.length > 0 ?
             cart.items.map(item => item.quantity > 0 && <CartCard key={item.id} item={item} itemQuantity={item.quantity} product={item.product} updateCart={updateCart} />)
             : <p className="h-96 flex flex-col gap-3 text-gray-700 font-semibold justify-center items-center"><MdProductionQuantityLimits className="text-5xl" /> Cart Is Empty

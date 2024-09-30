@@ -22,7 +22,7 @@ export default function FoodCard({ product }) {
         }
       });
 
-      console.log(`Product ${action}ed in cart:`, response.data);
+      // console.log(`Product ${action}ed in cart:`, response.data);
       // Optionally, you could also set the quantity based on the API response if necessary
       setQuantity(response.data.quantity);
 

@@ -10,11 +10,13 @@ import { SiPaytm } from "react-icons/si";
 import { FaGooglePay } from "react-icons/fa6";
 import { FaStripeS } from "react-icons/fa";
 import { useNavigate } from "react-router";
+import Loading from "../components/Loading";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Payment() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [cart, setCart] = useState(null);
   const [selectedPayment, setSelectedPayment] = useState(null);
 
@@ -23,14 +25,16 @@ export default function Payment() {
   };
 
   const getCart = async () => {
+    setLoading(true);
     const response = await axios.post(`${API_URL}/cart`, {
     }, {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
       }
     })
-    console.log(response.data);
+    // console.log(response.data);
     setCart(response.data);
+    setLoading(false);
   }
 
   const placeOrder = async () => {
@@ -42,7 +46,7 @@ export default function Payment() {
           "Authorization": `Bearer ${localStorage.getItem("token")}`
         }
       });
-      console.log(response.data);
+      // console.log(response.data);
       navigate("/order/success", { state: { id: response.data, amount: cart.total } });
     } catch (error) {
       navigate("/order/failure", { state: { error: true } });
@@ -57,10 +61,11 @@ export default function Payment() {
 
   return (
     <div className="min-h-screen bg-slate-100">
+      {loading && <Loading />}
       <Header />
 
-      <div className="grid grid-cols-3 gap-5 py-10 px-3 xl:px-28">
-        <div className="col-span-2 bg-white rounded-lg p-5">
+      <div className="md:grid grid-cols-3 gap-5 py-10 px-3 xl:px-28">
+        <div className="col-span-2 bg-white rounded-lg mb:p-5 mb-5">
           {/* {cart != null && cart.items.length > 0 ?
             cart.items.map(item => item.quantity > 0 && <CartCard key={item.id} item={item} itemQuantity={item.quantity} product={item.product} updateCart={updateCart} />)
             : <p className="h-full flex flex-col gap-3 font-semibold justify-center items-center"><MdProductionQuantityLimits className="text-5xl" /> Cart Is Empty</p>

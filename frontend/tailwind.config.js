@@ -11,6 +11,9 @@ export default {
         "orange": "#da4723",
         "dark-orange": "#a6361a",
         "light-orange": "#ff6f28"
+      },
+      screens: {
+        "mb": "376px"
       }
     },
   },

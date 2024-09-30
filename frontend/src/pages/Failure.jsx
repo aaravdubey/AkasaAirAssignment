@@ -7,7 +7,7 @@ export default function Failure() {
   const navigate = useNavigate();
   const location = useLocation();
   const { error } = location.state || {};
-  console.log(error);
+  // console.log(error);
   if (!error) navigate('/cart');
 
   const goToHome = () => {
@@ -27,7 +27,7 @@ export default function Failure() {
   }, [])
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-100">
+    <div className="min-h-screen flex items-center justify-center bg-slate-100 px-5">
       <div className="bg-white p-8 rounded-xl shadow-lg max-w-md text-center">
         <div className="flex justify-center mb-6">
           <MdError className="text-red-500 text-6xl" />

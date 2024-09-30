@@ -8,10 +8,13 @@ import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from "../components/Footer";
+import Loading from "../components/Loading";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Home() {
   const navigate = useNavigate();
+  const [productLoading, setProductLoading] = useState(false);
+  const [categoryLoading, setCategoryLoading] = useState(false);
 
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedtType, setSelectedType] = useState("All");
@@ -27,6 +30,7 @@ export default function Home() {
   };
 
   async function fetchProducts() {
+    setProductLoading(true);
     const categoriesQuery = selectedCategories.join(',');
     const type = selectedtType === "Non" ? "Non-Veg" : selectedtType;
 
@@ -42,11 +46,13 @@ export default function Home() {
     });
     if (response.status === 200) {
       setProducts(response.data);
-      console.log(response.data);
+      setProductLoading(false);
+      // console.log(response.data);
     }
   }
 
   async function fetchCategories() {
+    setCategoryLoading(true);
     const response = await axios.get(`${API_URL}/products/categories`, {
       headers: {
         "Authorization": `Bearer ${localStorage.getItem("token")}`
@@ -55,7 +61,8 @@ export default function Home() {
     if (response.status === 200) {
       const categoryNames = response.data.map(item => item.name);
       setCategories(categoryNames);
-      console.log(categoryNames);
+      // console.log(categoryNames);
+      setCategoryLoading(false);
     }
   }
 
@@ -70,24 +77,28 @@ export default function Home() {
 
   return (
     <div>
+      {productLoading || categoryLoading && <Loading />}
       <ToastContainer position="bottom-right" />
       <div className="bg-light-blue">
         <Header />
 
         <section className="bg-transparent">
-          <div className="grid max-w-screen-xl px-4 py-10 pb-8 mx-auto md:gap-8 xl:gap-0 md:grid-cols-12 md:py-8">
+          <div className="grid px-4 py-10 pb-8 xl:px-28 md:gap-8 xl:gap-0 md:grid-cols-12 md:py-8">
             <div className="mr-auto md:col-span-7">
               <h1
                 className="max-w-2xl mb-5 text-3xl text-logo-green font-extrabold leading-none tracking-tight md:text-4xl xl:text-5xl ">
                 Crave It? <br /><span className="text-orange">Order It!</span> <br /> Fresh Eats <br /> at Your Doorstep.
               </h1>
 
-              <p className="max-w-2xl mb-3 text-gray-500 md:text-base lg:text-lg">
+              <p className="max-w-2xl mb-4 text-gray-500 md:text-base lg:text-lg">
                 Order from the best local restaurants with easy on-demand delivery.
               </p>
 
               <div className="space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
-
+                <button onClick={() => navigate('/cart')}
+                  className="inline-flex items-center justify-center w-full px-5 py-3 text-sm font-medium text-center text-orange border-[1.5px] border-orange rounded-lg sm:w-auto hover:text-white hover:bg-dark-orange focus:ring-4 focus:ring-gray-100 ">
+                  View Cart
+                </button>
                 <button onClick={() => navigate('/orders')}
                   className="inline-flex items-center justify-center w-full px-5 py-3 text-sm font-medium text-center text-white border bg-orange border-gray-200 rounded-lg sm:w-auto hover:bg-dark-orange focus:ring-4 focus:ring-gray-100 ">
                   Track Orders
@@ -96,7 +107,7 @@ export default function Home() {
             </div>
 
             <div className="hidden md:mt-0 md:col-span-5 md:flex justify-end pr-10">
-              <img src={HomeImage} className="w-96 object-cover " alt="hero image" />
+              <img src={HomeImage} className="w-96 object-contain " alt="hero image" />
             </div>
 
           </div>
@@ -106,7 +117,7 @@ export default function Home() {
 
       <div className="py-8 px-2 xl:px-28">
         <h2 className="text-2xl font-bold mb-4 px-2">Order our best food options</h2>
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap text-sm md:text-base">
           <button
             onClick={() => setSelectedType("All")}
             className={`m-2 px-4 py-2 rounded-md transition duration-300 font-semibold
@@ -144,7 +155,7 @@ export default function Home() {
         </div>
 
 
-        {products.length > 0 ? <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-8">
+        {products.length > 0 ? <div className="grid mb:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 mt-8">
           {
             products.map((product) => (
               <FoodCard key={product._id} product={product} />

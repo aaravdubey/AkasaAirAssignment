@@ -14,24 +14,24 @@ export default function OrderCard({ order }) {
   const ampm = hour >= 12 ? 'PM' : 'AM';
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden flex p-4 gap-5 mb-5">
+    <div className="bg-white rounded-lg overflow-hidden flex p-2 mb:p-4 gap-5 mb-5">
       <div className="flex justify-center items-center border rounded-lg">
         <img src={order.orderItems[0].product.imageUrl} alt="food" className={`w-28 h-28 object-contain brightness-75 contrast-125`} />
       </div>
 
       <div className="w-full">
-        <h1 className="text-lg  flex justify-between mb-3">
-          <span className="font-semibold text-orange">OrderID#{order.id}</span>
-          <span className="text-sm text-gray-700">{`${monthName} ${day}, ${formattedHour}:${minute} ${ampm}`}</span>
+        <h1 className="text-lg mb:flex justify-between mb-3">
+          <p className="font-semibold text-orange">OrderID#{order.id}</p>
+          <p className="text-sm text-gray-700">{`${monthName} ${day}, ${formattedHour}:${minute} ${ampm}`}</p>
         </h1>
 
         {order.orderItems.map(item =>
-          <p key={item.id} className="text-gray-600 flex justify-between">
+          <p key={item.id} className="text-xs mb:text-base text-gray-600 flex justify-between mb-2">
             <span>{item.product.name} x {item.quantity}</span>
             <span>₹{item.product.price * item.quantity}</span>
           </p>
         )}
-        <div className="flex justify-between items-center mt-2">
+        <div className="flex justify-between text-xs mb:text-base items-center mt-4 mb:mt-2">
           <span>{order.delivered ?
             <span className="text-green-800">&#9679; delivered</span> :
             <span className="text-red-800">&#9679; in preparation</span>}

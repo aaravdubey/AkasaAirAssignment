@@ -7,7 +7,7 @@ export default function Success() {
   const navigate = useNavigate();
   const location = useLocation();
   const { id, amount } = location.state || {};
-  console.log(id + " " + amount);
+  // console.log(id + " " + amount);
   if (!id || !amount) navigate('/cart');
 
   const goToHome = () => {
@@ -27,7 +27,7 @@ export default function Success() {
   }, [])
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-100">
+    <div className="min-h-screen flex items-center justify-center bg-slate-100 px-5">
       <div className="bg-white p-8 rounded-xl shadow-lg max-w-md text-center">
         <div className="flex justify-center mb-6">
           <MdCheckCircle className="text-green-500 text-6xl" />
