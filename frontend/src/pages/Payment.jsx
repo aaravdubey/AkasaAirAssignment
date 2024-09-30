@@ -11,6 +11,8 @@ import { FaGooglePay } from "react-icons/fa6";
 import { FaStripeS } from "react-icons/fa";
 import { useNavigate } from "react-router";
 import Loading from "../components/Loading";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -38,6 +40,10 @@ export default function Payment() {
   }
 
   const placeOrder = async () => {
+    if (selectedPayment == null) {
+      toast.error("Please select a payment method to proceed");
+      return;
+    }
     try {
       const response = await axios.post(`${API_URL}/order`, {
         method: selectedPayment
@@ -63,6 +69,7 @@ export default function Payment() {
     <div className="min-h-screen bg-slate-100">
       {loading && <Loading />}
       <Header />
+      <ToastContainer position="bottom-right" />
 
       <div className="md:grid grid-cols-3 gap-5 py-10 px-3 xl:px-28">
         <div className="col-span-2 bg-white rounded-lg mb:p-5 mb-5">
@@ -104,7 +111,7 @@ export default function Payment() {
             </div>
           </div>
 
-          <button onClick={placeOrder} disabled={selectedPayment == null ? true : false} className={`w-full bg-orange hover:bg-dark-orange text-white text-lg font-bold py-3 mt-5 rounded-lg flex justify-between items-center px-5 ${selectedPayment == null && "cursor-not-allowed"}`}>
+          <button onClick={placeOrder} className={`w-full bg-orange hover:bg-dark-orange text-white text-lg font-bold py-3 mt-5 rounded-lg flex justify-between items-center px-5 ${selectedPayment == null && "cursor-not-allowed"}`}>
             <span>Pay & Place Order</span>
             <MdArrowForwardIos />
           </button>
